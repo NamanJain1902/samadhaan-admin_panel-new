@@ -19,21 +19,6 @@ class _ChatScreenState1 extends State<ChatScreen1> {
   final _auth = FirebaseAuth.instance;
 
   String messageText;
-  void handleClick(String value) {
-    setState(() {
-      switch (value) {
-        case 'All':
-          sort = 0;
-          break;
-        case 'Completed':
-          sort = 1;
-          break;
-        case 'Processing':
-          sort = 2;
-          break;
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -54,13 +39,47 @@ class _ChatScreenState1 extends State<ChatScreen1> {
     }
   }
 
+  void handleClick(String value) {
+    setState(() {
+      switch (value) {
+        case 'All':
+          sort = 0;
+          break;
+        case 'Completed':
+          sort = 1;
+          break;
+        case 'Processing':
+          sort = 2;
+          break;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        centerTitle: true,
+        backgroundColor: Colors.white,
         elevation: 0,
-        title: Text('Homepage'),
+        title: RichText(
+          text: TextSpan(
+              text: "COMP",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                  letterSpacing: 1,
+                  color: Colors.black),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "LAINTS",
+                    style: TextStyle(
+                        letterSpacing: 1,
+                        fontSize: 35,
+                        color: Colors.grey[500],
+                        fontFamily: "Sans Serif"))
+              ]),
+        ),
         actions: <Widget>[
           PopupMenuButton<String>(
             icon: CircleAvatar(
@@ -90,17 +109,6 @@ class _ChatScreenState1 extends State<ChatScreen1> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Complaints',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900),
-              ),
-              SizedBox(
-                height: 10,
-              ),
               MessagesStream(),
             ],
           ),
@@ -168,9 +176,18 @@ class MessagesStream extends StatelessWidget {
             ignored: ignored,
             currentDepartment: currentDepartment,
           );
-
           if (ignored == null) {
-            dept(currentDepartment, messageBubbles, messageBubble);
+            if (sort == 1) {
+              if (status == 'Completed') {
+                dept(currentDepartment, messageBubbles, messageBubble);
+              }
+            } else if (sort == 2) {
+              if (status == 'Processing') {
+                dept(currentDepartment, messageBubbles, messageBubble);
+              }
+            } else if (sort == 0) {
+              dept(currentDepartment, messageBubbles, messageBubble);
+            }
           }
         }
 
@@ -552,146 +569,164 @@ class _MessageBubbleState extends State<MessageBubble> {
                   ),
                   Padding(
                     padding: EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Name:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'Name:',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
                               ),
-                            ),
-                            Text(
-                              ' ${widget.name}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Phone Number:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            Text(
-                              ' ${widget.phone}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Address:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            Text(
-                              ' ${widget.address}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Date:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            Text(
-                              ' ${widget.date}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Department:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            Text(
-                              ' ${widget.currentDepartment}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Complaint:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            Text(
-                              ' ${widget.complaint}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Admin Remark:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                ' ${widget.adminremark}',
+                              Text(
+                                ' ${widget.name}',
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   color: Colors.black87,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          child: Row(
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'Phone Number:',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text(
+                                ' ${widget.phone}',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: <Widget>[
+                              Text(
+                                'Address: ',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                                maxLines: 20,
+                              ),
+                              Container(
+                                child: Expanded(
+                                  child: Text(
+                                    '${widget.address}',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.black87,
+                                    ),
+                                    maxLines: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'Date:',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text(
+                                ' ${widget.date}',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: <Widget>[
+                              Text(
+                                'Department:',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ' ${widget.department}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: <Widget>[
+                              Text(
+                                'Complaint:',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ' ${widget.complaint}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: <Widget>[
+                              Text(
+                                'Admin Remark:',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ' ${widget.adminremark}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
                             children: <Widget>[
                               Text(
                                 'Dept Remark:',
@@ -705,30 +740,30 @@ class _MessageBubbleState extends State<MessageBubble> {
                                 child: Text(
                                   ' ${widget.deptremark}',
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 18.0,
                                     color: Colors.black87,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          color: Colors.black,
-                          textColor: Colors.white,
-                          onPressed: () {
-                            _firestore
-                                .collection("complaints")
-                                .document(widget.complaintId)
-                                .updateData(
-                              {'Ignored': "yes"},
-                            );
-                          },
-                          child: Text("Ignore"),
-                        )
-                      ],
+                          FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            color: Colors.black,
+                            textColor: Colors.white,
+                            onPressed: () {
+                              _firestore
+                                  .collection("complaints")
+                                  .document(widget.complaintId)
+                                  .updateData(
+                                {'Ignored': "yes"},
+                              );
+                            },
+                            child: Text("Ignore"),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],

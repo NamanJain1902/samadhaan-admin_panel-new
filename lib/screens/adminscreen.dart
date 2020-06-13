@@ -58,9 +58,27 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        centerTitle: true,
+        backgroundColor: Colors.white,
         elevation: 0,
-        title: Text('Homepage'),
+        title: RichText(
+          text: TextSpan(
+              text: "COMP",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                  letterSpacing: 1,
+                  color: Colors.black),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "LAINTS",
+                    style: TextStyle(
+                        letterSpacing: 1,
+                        fontSize: 35,
+                        color: Colors.grey[500],
+                        fontFamily: "Sans Serif"))
+              ]),
+        ),
         actions: <Widget>[
           PopupMenuButton<String>(
             icon: CircleAvatar(
@@ -90,17 +108,6 @@ class _ChatScreenState extends State<ChatScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Complaints',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900),
-              ),
-              SizedBox(
-                height: 10,
-              ),
               MessagesStream(),
             ],
           ),
@@ -471,9 +478,11 @@ class _MessageBubbleState extends State<MessageBubble> {
                             ],
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: <Widget>[
                               Text(
-                                'Address:',
+                                'Address: ',
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
@@ -482,13 +491,15 @@ class _MessageBubbleState extends State<MessageBubble> {
                                 maxLines: 20,
                               ),
                               Container(
-                                child: Text(
-                                  ' ${widget.address}',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.black87,
+                                child: Expanded(
+                                  child: Text(
+                                    '${widget.address}',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.black87,
+                                    ),
+                                    maxLines: 20,
                                   ),
-                                  maxLines: 20,
                                 ),
                               ),
                             ],
@@ -513,6 +524,8 @@ class _MessageBubbleState extends State<MessageBubble> {
                             ],
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: <Widget>[
                               Text(
                                 'Department:',
@@ -522,16 +535,20 @@ class _MessageBubbleState extends State<MessageBubble> {
                                   color: Colors.black87,
                                 ),
                               ),
-                              Text(
-                                ' ${widget.department}',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black87,
+                              Expanded(
+                                child: Text(
+                                  ' ${widget.department}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: <Widget>[
                               Text(
                                 'Complaint:',
@@ -541,16 +558,20 @@ class _MessageBubbleState extends State<MessageBubble> {
                                   color: Colors.black87,
                                 ),
                               ),
-                              Text(
-                                ' ${widget.complaint}',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black87,
+                              Expanded(
+                                child: Text(
+                                  ' ${widget.complaint}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: <Widget>[
                               Text(
                                 'Admin Remark:',
