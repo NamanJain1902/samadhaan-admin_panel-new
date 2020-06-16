@@ -61,23 +61,26 @@ class _ChatScreenState extends State<ChatScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: RichText(
-          text: TextSpan(
-              text: "COMP",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 35,
-                  letterSpacing: 1,
-                  color: Colors.black),
-              children: <TextSpan>[
-                TextSpan(
-                    text: "LAINTS",
-                    style: TextStyle(
-                        letterSpacing: 1,
-                        fontSize: 35,
-                        color: Colors.grey[500],
-                        fontFamily: "Sans Serif"))
-              ]),
+        title: FittedBox(
+          fit: BoxFit.contain,
+          child: RichText(
+            text: TextSpan(
+                text: "COMPL",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 35,
+                    letterSpacing: 1,
+                    color: Colors.black),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: "AINTS",
+                      style: TextStyle(
+                          letterSpacing: 1,
+                          fontSize: 35,
+                          color: Colors.grey[500],
+                          fontFamily: "Sans Serif"))
+                ]),
+          ),
         ),
         actions: <Widget>[
           PopupMenuButton<String>(
@@ -138,7 +141,7 @@ class MessagesStream extends StatelessWidget {
           final department = message.data['department'];
           final details = message.data['details'];
           final colony = message.data['colony'];
-          final consumerId = message.data['consumerId'];
+//          final consumerId = message.data['consumerId'];
           final house = message.data['house no'];
           final name = message.data['name'];
           final phone = message.data['phone'];
@@ -244,7 +247,7 @@ class _MessageBubbleState extends State<MessageBubble> {
   @override
   Widget build(BuildContext context) {
     _selectedDepartment = widget.department;
-
+//    double maxWidth = MediaQuery.of(context).size.width * 0.7;
     return Container(
       child: Column(
         children: <Widget>[
@@ -253,150 +256,157 @@ class _MessageBubbleState extends State<MessageBubble> {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return SingleChildScrollView(
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(15),
-                            width: double.infinity,
-                            color: Colors.black,
-                            child: Text(
-                              widget.complaintId,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            color: Colors.black,
-                            textColor: Colors.white,
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  var message = Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey[300],
-                                    ),
-                                    child: TextField(
-                                      controller: _controller,
-                                      maxLines: null,
-                                      style: TextStyle(fontSize: 20),
-                                      decoration: InputDecoration(
-                                        hintText: widget.adminremark,
-                                        border: InputBorder.none,
-                                        icon: Icon(
-                                          Icons.edit,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                  Function onpressed = () {
-                                    _firestore
-                                        .collection("complaints")
-                                        .document(widget.complaintId)
-                                        .updateData(
-                                      {'Adminremark': _controller.text},
-                                    );
-                                    Navigator.of(context).pop();
-                                  };
-                                  return PlatformAlertDialog(
-                                      context,
-                                      "Edit Remark",
-                                      message,
-                                      onpressed,
-                                      "Save");
-                                },
-                              );
-                            },
-                            child: Text("Change Remark"),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Change Department :",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(15),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.assignment,
-                                  size: 40,
+                  return Flexible(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              width: double.infinity,
+                              color: Colors.black,
+                              child: Text(
+                                widget.complaintId,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
-                                SizedBox(
-                                  width: 18,
-                                ),
-                                DropdownButton(
-                                  iconEnabledColor: Colors.white,
-                                  underline: Container(
-                                    color: Colors.transparent,
-                                  ),
-                                  focusColor: Colors.black,
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.grey[600]),
-                                  elevation: 2,
-                                  hint: Text(
-                                    'Please choose a Department ',
-                                    style: TextStyle(color: Colors.grey),
-                                  ), // Not necessary for Option 1
-                                  value: _selectedDepartment,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      _selectedDepartment = newValue;
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            FlatButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              color: Colors.black,
+                              textColor: Colors.white,
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    var message = Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.grey[300],
+                                      ),
+                                      child: TextField(
+                                        controller: _controller,
+                                        maxLines: null,
+                                        style: TextStyle(fontSize: 20),
+                                        decoration: InputDecoration(
+                                          hintText: widget.adminremark,
+                                          border: InputBorder.none,
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                    Function onpressed = () {
                                       _firestore
                                           .collection("complaints")
                                           .document(widget.complaintId)
                                           .updateData(
-                                        {'department': newValue},
+                                        {'Adminremark': _controller.text},
                                       );
-                                    });
-                                    Navigator.pop(context);
+                                      Navigator.of(context).pop();
+                                    };
+                                    return PlatformAlertDialog(
+                                        context,
+                                        "Edit Remark",
+                                        message,
+                                        onpressed,
+                                        "Save");
                                   },
-                                  items: depts.map((location) {
-                                    return DropdownMenuItem(
-                                      child: new Text(location),
-                                      value: location,
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
+                                );
+                              },
+                              child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text("Change Remark")),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          )
-                        ],
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Change Department :",
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+//                              constraints: BoxConstraints(maxWidth: maxWidth),
+
+                              margin: EdgeInsets.all(15),
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Wrap(
+//                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.assignment,
+                                    size: 40,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 18,
+                                  ),
+                                  DropdownButton(
+                                    iconEnabledColor: Colors.white,
+                                    underline: Container(
+                                      color: Colors.transparent,
+                                    ),
+                                    focusColor: Colors.black,
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.grey[600]),
+                                    elevation: 2,
+
+                                    hint: Text(
+                                      'Please choose a Department ',
+                                      style: TextStyle(color: Colors.grey),
+                                    ), // Not necessary for Option 1
+                                    value: _selectedDepartment,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        _selectedDepartment = newValue;
+                                        _firestore
+                                            .collection("complaints")
+                                            .document(widget.complaintId)
+                                            .updateData(
+                                          {'department': newValue},
+                                        );
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    items: depts.map((location) {
+                                      return DropdownMenuItem(
+                                        child: new Text( location),
+                                        value: location,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
                 },
               );
 
-              print('${widget.address}');
+//              print('${widget.address}');
             },
             child: Card(
               elevation: 10,
@@ -441,38 +451,50 @@ class _MessageBubbleState extends State<MessageBubble> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Text(
-                                'Name:',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  'Name:',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                ' ${widget.name}',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black87,
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  ' ${widget.name}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           Row(
                             children: <Widget>[
-                              Text(
-                                'Phone Number:',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  'Phone Number:',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                ' ${widget.phone}',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black87,
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  ' ${widget.phone}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
                             ],
@@ -481,14 +503,17 @@ class _MessageBubbleState extends State<MessageBubble> {
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: <Widget>[
-                              Text(
-                                'Address: ',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  'Address: ',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                  maxLines: 20,
                                 ),
-                                maxLines: 20,
                               ),
                               Container(
                                 child: Expanded(
@@ -506,19 +531,25 @@ class _MessageBubbleState extends State<MessageBubble> {
                           ),
                           Row(
                             children: <Widget>[
-                              Text(
-                                'Date:',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  'Date:',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                ' ${widget.date}',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black87,
+                              Flexible(
+                                flex: 1,
+                                child: Text(
+                                  ' ${widget.date}',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
                             ],

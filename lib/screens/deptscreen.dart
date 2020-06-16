@@ -1,8 +1,8 @@
+import 'package:samadhan/data/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:samadhan/data/constants.dart';
 
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
@@ -58,27 +58,31 @@ class _ChatScreenState1 extends State<ChatScreen1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: RichText(
-          text: TextSpan(
-              text: "COMP",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 35,
-                  letterSpacing: 1,
-                  color: Colors.black),
-              children: <TextSpan>[
-                TextSpan(
-                    text: "LAINTS",
-                    style: TextStyle(
-                        letterSpacing: 1,
-                        fontSize: 35,
-                        color: Colors.grey[500],
-                        fontFamily: "Sans Serif"))
-              ]),
+        title: FittedBox(
+          fit: BoxFit.contain,
+          child: RichText(
+            text: TextSpan(
+                text: "COMPLA",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 35,
+                    letterSpacing: 1,
+                    color: Colors.black),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: "INTS",
+                      style: TextStyle(
+                          letterSpacing: 1,
+                          fontSize: 35,
+                          color: Colors.grey[500],
+                          fontFamily: "Sans Serif"))
+                ]),
+          ),
         ),
         actions: <Widget>[
           PopupMenuButton<String>(
@@ -139,7 +143,7 @@ class MessagesStream extends StatelessWidget {
           final department = message.data['department'];
           final details = message.data['details'];
           final colony = message.data['colony'];
-          final consumerId = message.data['consumerId'];
+//          final consumerId = message.data['consumerId'];
           final house = message.data['house no'];
           final name = message.data['name'];
           final phone = message.data['phone'];
@@ -345,13 +349,17 @@ class _MessageBubbleState extends State<MessageBubble> {
                             padding: EdgeInsets.all(15),
                             width: double.infinity,
                             color: Colors.black,
-                            child: Text(
-                              widget.complaintId,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                            
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                widget.complaintId,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -414,8 +422,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                 context: context,
                                 builder: (context) {
                                   var message = Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20),
+                                    margin: EdgeInsets.symmetric(horizontal: 20),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -468,8 +475,8 @@ class _MessageBubbleState extends State<MessageBubble> {
                             decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(20)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            child: Wrap(
+//                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Icon(
                                   Icons.assignment,
@@ -488,9 +495,12 @@ class _MessageBubbleState extends State<MessageBubble> {
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.grey[600]),
                                   elevation: 2,
-                                  hint: Text(
-                                    'Please choose a Department ',
-                                    style: TextStyle(color: Colors.grey),
+                                  hint: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: Text(
+                                      'Please choose a Department ',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
                                   ), // Not necessary for Option 1
                                   value: _selectedDepartment,
                                   onChanged: (newValue) {
@@ -542,12 +552,15 @@ class _MessageBubbleState extends State<MessageBubble> {
                     color: Colors.blueGrey[700],
                     child: Padding(
                       padding: EdgeInsets.all(15),
-                      child: Text(
-                        '#${widget.complaintId}',
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                          '#${widget.complaintId}',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
