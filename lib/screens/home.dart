@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:samadhan/data/constants.dart';
-import 'package:samadhan/screens/SignTemplate.dart';
+import 'package:flutter/material.dart';
+
+import 'SignTemplate.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -50,16 +51,28 @@ class Home extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Icon(
-                              Icons.verified_user,
-                              color: Colors.black,
-                              size: 70,
+                            Flexible(
+                              flex: 3,
+                              child: Icon(
+                                Icons.verified_user,
+                                color: Colors.black,
+                                size: 65,
+                              ),
                             ),
-                            Text("ADMIN",
-                                style: TextStyle(
-                                    letterSpacing: 1,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold))
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text("ADMIN",
+                                    style: TextStyle(
+                                        letterSpacing: 1,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -91,16 +104,28 @@ class Home extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Icon(
-                              Icons.local_printshop,
-                              color: Colors.black,
-                              size: 70,
+                            Flexible(
+                              flex: 3,
+                              child: Icon(
+                                Icons.local_printshop,
+                                color: Colors.black,
+                                size: 65,
+                              ),
                             ),
-                            Text("DEPARTMENT",
-                                style: TextStyle(
-                                    letterSpacing: 1,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold))
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text("DEPARTMENT",
+                                    style: TextStyle(
+                                        letterSpacing: 1,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            )
                           ],
                         ),
                       ),
