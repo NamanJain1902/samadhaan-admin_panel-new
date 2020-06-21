@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:samadhan/data/constants.dart';
 import 'package:samadhan/screens/deptscreen.dart';
 import 'adminscreen.dart';
@@ -44,44 +43,42 @@ class _SignTempState extends State<SignTemp> {
                 ),
                 MaterialButton(
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      setState(() {
-                        showSpinner = true;
-                      });
-                      try {
-                        final user = await _auth.signInWithEmailAndPassword(
-                            email: email + '@test.com', password: password);
-                        if (user != null) {
-                          if (email == 'deepakmangla') {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return ChatScreen();
-                              },
-                            ));
-                          } else {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return ChatScreen1();
-                              },
-                            ));
-                          }
+                    setState(() {
+                      showSpinner = true;
+                    });
+                    try {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email + '@test.com', password: password);
+                      if (user != null) {
+                        if (email == 'deepakmangla') {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ChatScreen();
+                            },
+                          ));
+                        } else {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ChatScreen1();
+                            },
+                          ));
                         }
-
-                        setState(() {
-                          showSpinner = false;
-                        });
-                      } on PlatformException catch (e) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            Function onpressed = () {
-                              Navigator.of(context).pop();
-                            };
-                            return PlatformAlertDialog(context, "Sign In",
-                                Text(e.message), onpressed, "Retry");
-                          },
-                        );
                       }
+
+                      setState(() {
+                        showSpinner = false;
+                      });
+                    } on PlatformException catch (e) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          Function onpressed = () {
+                            Navigator.of(context).pop();
+                          };
+                          return PlatformAlertDialog(context, "Sign In",
+                              Text(e.message), onpressed, "Retry");
+                        },
+                      );
                     }
                   },
                   shape: RoundedRectangleBorder(
@@ -89,17 +86,10 @@ class _SignTempState extends State<SignTemp> {
                   padding: EdgeInsets.all(15),
                   textColor: Colors.white,
                   color: Colors.black,
-                  child: showSpinner
-                      ? FittedBox(
-                                              child: Center(
-                            child: SpinKitChasingDots(
-                            color: Colors.white,
-                          )),
-                      )
-                      : Text(
-                          "SUMBIT",
-                          style: TextStyle(fontSize: 20),
-                        ),
+                  child: Text(
+                    "SUMBIT",
+                    style: TextStyle(fontSize: 20),
+                  ),
                 )
               ],
             ),
@@ -127,7 +117,6 @@ class _SignTempState extends State<SignTemp> {
                 if (value.isEmpty || value.length < 1) {
                   return 'Please enter your username';
                 }
-                return null;
               },
               onChanged: (value) {
                 email = value;
@@ -161,7 +150,6 @@ class _SignTempState extends State<SignTemp> {
                 if (value.isEmpty || value.length < 1) {
                   return 'Please enter your password';
                 }
-                return null;
               },
               onChanged: (value) {
                 password = value;

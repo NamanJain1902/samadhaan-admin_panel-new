@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:samadhan/screens/home.dart';
 
 import '../data/constants.dart';
 
@@ -59,8 +58,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // centerTitle: true,
-        backgroundColor: Colors.grey[300],
+        centerTitle: true,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: FittedBox(
           fit: BoxFit.contain,
@@ -84,18 +83,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         actions: <Widget>[
-          FlatButton.icon(
-                  onPressed: () async {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) {
-                        return Home();
-                      },
-                    ));
-                  },
-                  icon: Icon(Icons.person_outline),
-                  label: Text('Logout'),
-                ),
           PopupMenuButton<String>(
             icon: CircleAvatar(
               backgroundColor: Colors.blueGrey,
@@ -338,7 +325,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                 },
                               );
                             },
-                            child: Text("Add Remark"),
+                            child: Text("Change Remark"),
                           ),
                           SizedBox(
                             height: 10,
