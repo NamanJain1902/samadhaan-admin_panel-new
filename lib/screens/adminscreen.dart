@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:samadhan/screens/home.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../data/constants.dart';
 
 final _firestore = Firestore.instance;
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 FirebaseUser loggedInUser;
 int sort = 0;
 
@@ -18,7 +19,6 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
-
   String messageText;
 
   void handleClick(String value) {
@@ -40,10 +40,33 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-
+    setUpMessaging();
     getCurrentUser();
   }
 
+  void setUpMessaging() {
+    _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          print('on message $message');
+        },
+        onResume: (Map<String, dynamic> message) async {
+          print(message);
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          print(message);
+        });
+    _firebaseMessaging.getToken().then((token) {
+      _firestore
+          .collection("lead")
+          .document("admin")
+          .setData({
+        "token" : token,
+        "tag"   : "admin",
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      _firebaseMessaging.subscribeToTopic("admin");
+    });
+  }
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();

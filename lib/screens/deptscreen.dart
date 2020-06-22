@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:samadhan/screens/home.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
 String email;
 int sort = 0;
+
 
 class ChatScreen1 extends StatefulWidget {
   @override
@@ -24,8 +27,32 @@ class _ChatScreenState1 extends State<ChatScreen1> {
   @override
   void initState() {
     super.initState();
-
+    setUpMessaging();
     getCurrentUser();
+  }
+
+  void setUpMessaging() {
+    _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          print('on message $message');
+        },
+        onResume: (Map<String, dynamic> message) async {
+          print(message);
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          print(message);
+        });
+    _firebaseMessaging.getToken().then((token) {
+      _firestore
+          .collection("lead")
+          .document("Department")
+          .setData({
+        "token" : token,
+        "tag"   : "department",
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+//      _firebaseMessaging.subscribeToTopic(dept);
+    });
   }
 
   void getCurrentUser() async {
@@ -58,13 +85,13 @@ class _ChatScreenState1 extends State<ChatScreen1> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        
         centerTitle: true,
         backgroundColor: Colors.grey[300],
-        elevation: 0,
+        elevation: 0, 
         title: FittedBox(
           fit: BoxFit.contain,
           child: RichText(
@@ -207,6 +234,7 @@ class MessagesStream extends StatelessWidget {
               dept(currentDepartment, messageBubbles, messageBubble);
             }
           }
+          setUpMessaging(department);
         }
 
         return Expanded(
